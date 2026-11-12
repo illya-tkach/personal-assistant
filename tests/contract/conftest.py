@@ -12,12 +12,15 @@ from pathlib import Path
 import pytest
 
 from personal_assistant.application.ports import ContactRepository, NoteRepository
+from personal_assistant.infrastructure.json_contact_repository import JsonContactRepository
+from personal_assistant.infrastructure.json_note_repository import JsonNoteRepository
+from personal_assistant.infrastructure.json_storage import JsonFile
 from personal_assistant.infrastructure.memory_repositories import (
     InMemoryContactRepository,
     InMemoryNoteRepository,
 )
 
-BACKENDS = ["memory"]
+BACKENDS = ["memory", "json"]
 
 
 @pytest.fixture(params=BACKENDS)
@@ -30,6 +33,8 @@ def contact_repo_factory(backend: str, tmp_path: Path) -> Iterator[Callable[[], 
     if backend == "memory":
         repo = InMemoryContactRepository()
         yield lambda: repo
+    elif backend == "json":
+        yield lambda: JsonContactRepository(JsonFile(tmp_path / "contacts.json"))
     else:  # pragma: no cover - extended by later backends
         raise AssertionError(backend)
 
@@ -39,6 +44,8 @@ def note_repo_factory(backend: str, tmp_path: Path) -> Iterator[Callable[[], Not
     if backend == "memory":
         repo = InMemoryNoteRepository()
         yield lambda: repo
+    elif backend == "json":
+        yield lambda: JsonNoteRepository(JsonFile(tmp_path / "notes.json"))
     else:  # pragma: no cover - extended by later backends
         raise AssertionError(backend)
 

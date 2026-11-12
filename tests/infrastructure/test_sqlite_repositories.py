@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sqlite3
 from collections.abc import Iterator
+from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -33,7 +34,7 @@ def db(db_path: Path) -> Iterator[SqliteDatabase]:
 
 
 def inspect(path: Path, sql: str) -> list[tuple[object, ...]]:
-    with sqlite3.connect(path) as conn:
+    with closing(sqlite3.connect(path)) as conn:
         return conn.execute(sql).fetchall()
 
 

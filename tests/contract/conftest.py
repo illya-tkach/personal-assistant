@@ -19,8 +19,31 @@ from personal_assistant.infrastructure.memory_repositories import (
     InMemoryContactRepository,
     InMemoryNoteRepository,
 )
+from personal_assistant.infrastructure.sqlite_repositories import (
+    SqliteContactRepository,
+    SqliteDatabase,
+    SqliteNoteRepository,
+)
 
-BACKENDS = ["memory", "json"]
+BACKENDS = ["memory", "json", "sqlite"]
+
+
+class _SqliteOpener:
+    """Re-opens the same database file, closing the previous connection first."""
+
+    def __init__(self, path: Path) -> None:
+        self._path = path
+        self._db: SqliteDatabase | None = None
+
+    def open(self) -> SqliteDatabase:
+        self.close()
+        self._db = SqliteDatabase(self._path)
+        return self._db
+
+    def close(self) -> None:
+        if self._db is not None:
+            self._db.close()
+            self._db = None
 
 
 @pytest.fixture(params=BACKENDS)
@@ -35,6 +58,10 @@ def contact_repo_factory(backend: str, tmp_path: Path) -> Iterator[Callable[[], 
         yield lambda: repo
     elif backend == "json":
         yield lambda: JsonContactRepository(JsonFile(tmp_path / "contacts.json"))
+    elif backend == "sqlite":
+        opener = _SqliteOpener(tmp_path / "assistant.db")
+        yield lambda: SqliteContactRepository(opener.open())
+        opener.close()
     else:  # pragma: no cover - extended by later backends
         raise AssertionError(backend)
 
@@ -46,6 +73,10 @@ def note_repo_factory(backend: str, tmp_path: Path) -> Iterator[Callable[[], Not
         yield lambda: repo
     elif backend == "json":
         yield lambda: JsonNoteRepository(JsonFile(tmp_path / "notes.json"))
+    elif backend == "sqlite":
+        opener = _SqliteOpener(tmp_path / "assistant.db")
+        yield lambda: SqliteNoteRepository(opener.open())
+        opener.close()
     else:  # pragma: no cover - extended by later backends
         raise AssertionError(backend)
 

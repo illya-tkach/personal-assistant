@@ -15,6 +15,8 @@ from personal_assistant.domain.value_objects import Address, Birthday, Email, Na
 
 ContactId = NewType("ContactId", str)
 
+_PHONE_QUERY = re.compile(r"[\d\s+\-()]+")
+
 
 def _unique(phones: Iterable[Phone]) -> list[Phone]:
     return list(dict.fromkeys(phones))
@@ -85,7 +87,11 @@ class Contact:
         return upcoming.year - self.birthday.value.year
 
     def matches(self, query: str) -> bool:
-        """Case-insensitive substring search; phones are compared by digits only."""
+        """Case-insensitive substring search.
+
+        A query that looks like a phone number (digits, spaces, +, -, parentheses only)
+        is also compared with phone numbers by digits.
+        """
         needle = query.strip().casefold()
         texts = [self.name.value]
         if self.email:
@@ -96,5 +102,7 @@ class Contact:
             texts.append(self.birthday.format())
         if any(needle in text.casefold() for text in texts):
             return True
+        if not _PHONE_QUERY.fullmatch(needle):
+            return False
         digits = re.sub(r"\D", "", needle)
         return bool(digits) and any(digits in phone.digits for phone in self.phones)

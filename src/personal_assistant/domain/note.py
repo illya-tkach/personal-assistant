@@ -57,7 +57,8 @@ class Note:
 
     def matches(self, query: str) -> bool:
         needle = query.strip().casefold()
-        return needle in self.text.casefold() or any(needle in tag.value for tag in self.tags)
+        tag_needle = needle.lstrip("#")  # tags are shown as #tag, users type it that way
+        return needle in self.text.casefold() or any(tag_needle in tag.value for tag in self.tags)
 
     def has_all_tags(self, tags: Iterable[Tag]) -> bool:
         return frozenset(tags) <= self.tags

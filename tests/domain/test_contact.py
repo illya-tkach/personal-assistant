@@ -109,3 +109,14 @@ def test_matches_email_address_birthday() -> None:
 
 def test_query_without_digits_does_not_match_phone() -> None:
     assert not make(phones=[Phone("0501234567")]).matches("xyz")
+
+
+def test_text_query_with_digits_does_not_match_phone() -> None:
+    by_address = make(address=Address("Хрещатик 1"))
+    by_phone_only = Contact.create(Name("Бен"), phones=[Phone("0671111111")])
+    assert by_address.matches("Хрещатик 1")
+    assert not by_phone_only.matches("Хрещатик 1")
+
+
+def test_phone_shaped_query_matches_phone() -> None:
+    assert make(phones=[Phone("0501234567")]).matches("+38 (050) 123")

@@ -61,3 +61,8 @@ def test_has_all_tags() -> None:
     n = note(tags=("a", "b"))
     assert n.has_all_tags([Tag("a"), Tag("b")])
     assert not n.has_all_tags([Tag("a"), Tag("c")])
+
+
+def test_matches_tag_with_hash_prefix() -> None:
+    assert note(tags=("робота",)).matches("#робота")
+    assert note(tags=("робота",)).matches("#РОБ")

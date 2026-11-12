@@ -9,6 +9,7 @@ from collections.abc import Mapping
 from prompt_toolkit import PromptSession
 from prompt_toolkit.completion import WordCompleter
 from rich.console import Console
+from rich.text import Text
 
 from personal_assistant.application.contact_service import ContactService
 from personal_assistant.application.note_service import NoteService
@@ -29,7 +30,7 @@ def _open_storage(env: Mapping[str, str], console: Console) -> StorageBundle | N
         error = messages.error_message(exc)
     except OSError as exc:
         error = str(exc)
-    console.print(f"[red]{messages.STORAGE_START_FAILED.format(error=error)}[/red]")
+    console.print(Text(messages.STORAGE_START_FAILED.format(error=error), style="red"))
     return None
 
 
@@ -40,7 +41,7 @@ def main(env: Mapping[str, str] | None = None) -> int:
         return 1
     try:
         for path in storage.quarantined:
-            console.print(f"[yellow]{messages.STORAGE_QUARANTINED.format(path=path)}[/yellow]")
+            console.print(Text(messages.STORAGE_QUARANTINED.format(path=path), style="yellow"))
         clock = SystemClock()
         registry = build_registry()
         field_session: PromptSession[str] = PromptSession()

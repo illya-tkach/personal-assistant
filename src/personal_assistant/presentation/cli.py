@@ -4,6 +4,8 @@ from __future__ import annotations
 
 from collections.abc import Callable
 
+from rich.text import Text
+
 from personal_assistant.domain.errors import DomainError
 from personal_assistant.presentation import messages
 from personal_assistant.presentation.registry import CommandContext, CommandRegistry, Outcome
@@ -22,7 +24,7 @@ class AssistantCLI:
         self._console = context.console
 
     def run(self) -> None:
-        self._console.print(messages.WELCOME, highlight=False)
+        self._console.print(Text(messages.WELCOME))
         while True:
             try:
                 line = self._read_command()
@@ -30,7 +32,7 @@ class AssistantCLI:
                 break
             if self.handle_line(line) is Outcome.EXIT:
                 break
-        self._console.print(messages.GOODBYE, highlight=False)
+        self._console.print(Text(messages.GOODBYE))
 
     def handle_line(self, line: str) -> Outcome:
         """Run the command named by the first word; arguments are ignored (commands ask)."""
@@ -45,7 +47,7 @@ class AssistantCLI:
         try:
             return command.handler(self._context)
         except (KeyboardInterrupt, EOFError):
-            self._console.print(f"[yellow]{messages.CANCELLED}[/yellow]", highlight=False)
+            self._console.print(Text(messages.CANCELLED, style="yellow"))
         except DomainError as exc:
             self._error(messages.error_message(exc))
         except Exception as exc:
@@ -60,4 +62,4 @@ class AssistantCLI:
             self._error(messages.UNKNOWN_COMMAND_NO_SUGGESTIONS)
 
     def _error(self, text: str) -> None:
-        self._console.print(f"[red]✗ {text}[/red]", highlight=False)
+        self._console.print(Text(f"✗ {text}", style="red"))

@@ -23,6 +23,11 @@ def nothing_found() -> Text:
     return Text(messages.NOTHING_FOUND, style="yellow")
 
 
+def cell(value: str) -> Text:
+    """User data is always rendered literally, never parsed as Rich markup."""
+    return Text(value)
+
+
 def format_tags(tags: frozenset[Tag]) -> str:
     return ", ".join(f"#{tag.value}" for tag in sorted(tags))
 
@@ -41,11 +46,11 @@ def contacts_table(contacts: Sequence[Contact]) -> RenderableType:
         table.add_column(column)
     for contact in contacts:
         table.add_row(
-            contact.name.value,
-            "\n".join(phone.value for phone in contact.phones),
-            contact.email.value if contact.email else "",
-            contact.address.value if contact.address else "",
-            contact.birthday.format() if contact.birthday else "",
+            cell(contact.name.value),
+            cell("\n".join(phone.value for phone in contact.phones)),
+            cell(contact.email.value if contact.email else ""),
+            cell(contact.address.value if contact.address else ""),
+            cell(contact.birthday.format() if contact.birthday else ""),
         )
     return table
 
@@ -62,11 +67,13 @@ def birthdays_table(items: Sequence[UpcomingBirthday], days: int) -> RenderableT
             if item.days_until == 0
             else messages.IN_DAYS.format(days=item.days_until)
         )
-        table.add_row(item.contact.name.value, item.date.strftime(DATE_FORMAT), when, str(item.age))
+        table.add_row(
+            cell(item.contact.name.value), item.date.strftime(DATE_FORMAT), when, str(item.age)
+        )
     return table
 
 
-def notes_table(notes: Sequence[Note], title: str = messages.TITLE_NOTES) -> RenderableType:
+def notes_table(notes: Sequence[Note], title: str | Text = messages.TITLE_NOTES) -> RenderableType:
     if not notes:
         return nothing_found()
     table = Table(title=title, show_lines=True)
@@ -77,8 +84,8 @@ def notes_table(notes: Sequence[Note], title: str = messages.TITLE_NOTES) -> Ren
     for note in notes:
         table.add_row(
             str(note.id),
-            note.text,
-            format_tags(note.tags),
+            cell(note.text),
+            cell(format_tags(note.tags)),
             note.created_at.strftime(DATETIME_FORMAT),
         )
     return table
@@ -89,7 +96,7 @@ def notes_by_tag_view(groups: Mapping[Tag | None, Sequence[Note]]) -> Renderable
         return nothing_found()
     return Group(
         *(
-            notes_table(notes, title=f"#{tag.value}" if tag else messages.UNTAGGED)
+            notes_table(notes, title=cell(f"#{tag.value}" if tag else messages.UNTAGGED))
             for tag, notes in groups.items()
         )
     )

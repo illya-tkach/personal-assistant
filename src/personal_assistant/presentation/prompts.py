@@ -10,6 +10,7 @@ from collections.abc import Callable
 from typing import TypeVar
 
 from rich.console import Console
+from rich.text import Text
 
 from personal_assistant.domain.errors import ValidationError
 from personal_assistant.presentation import messages
@@ -77,4 +78,4 @@ class Prompter:
             return None
 
     def _error(self, text: str) -> None:
-        self._console.print(f"[red]✗ {text}[/red]", highlight=False)
+        self._console.print(Text(f"✗ {text}", style="red"))

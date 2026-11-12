@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from rich.text import Text
+
 from personal_assistant.presentation.registry import CommandContext
 
 
@@ -11,8 +13,8 @@ def text(raw: str) -> str:
 
 
 def success(ctx: CommandContext, message: str) -> None:
-    ctx.console.print(f"[green]{message}[/green]", highlight=False)
+    ctx.console.print(Text(message, style="green"))
 
 
 def info(ctx: CommandContext, message: str) -> None:
-    ctx.console.print(f"[dim]{message}[/dim]", highlight=False)
+    ctx.console.print(Text(message, style="dim"))

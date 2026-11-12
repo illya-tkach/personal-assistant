@@ -121,3 +121,9 @@ def test_upcoming_birthdays_ties_sorted_by_name(service: ContactService) -> None
 def test_invalid_days_raise(service: ContactService, days: int) -> None:
     with pytest.raises(InvalidDaysError):
         service.upcoming_birthdays(days)
+
+
+def test_list_all_uses_ukrainian_alphabet(service: ContactService) -> None:
+    for name in ["Яна", "Ірина", "Євген", "Петро"]:
+        service.add(data(name))
+    assert [c.name.value for c in service.list_all()] == ["Євген", "Ірина", "Петро", "Яна"]

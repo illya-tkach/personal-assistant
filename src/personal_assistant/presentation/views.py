@@ -11,6 +11,7 @@ from rich.text import Text
 from personal_assistant.application.contact_service import UpcomingBirthday
 from personal_assistant.domain.contact import Contact
 from personal_assistant.domain.note import Note
+from personal_assistant.domain.sorting import ukrainian_sort_key
 from personal_assistant.domain.value_objects import Tag
 from personal_assistant.presentation import messages
 from personal_assistant.presentation.registry import Command
@@ -29,7 +30,9 @@ def cell(value: str) -> Text:
 
 
 def format_tags(tags: frozenset[Tag]) -> str:
-    return ", ".join(f"#{tag.value}" for tag in sorted(tags))
+    return ", ".join(
+        f"#{tag.value}" for tag in sorted(tags, key=lambda t: ukrainian_sort_key(t.value))
+    )
 
 
 def contacts_table(contacts: Sequence[Contact]) -> RenderableType:

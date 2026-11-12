@@ -8,6 +8,7 @@ from datetime import date
 from personal_assistant.application.ports import Clock, ContactRepository
 from personal_assistant.domain.contact import Contact
 from personal_assistant.domain.errors import ContactNotFoundError, InvalidDaysError
+from personal_assistant.domain.sorting import ukrainian_sort_key
 from personal_assistant.domain.value_objects import Address, Birthday, Email, Name, Phone
 
 MAX_BIRTHDAY_WINDOW_DAYS = 365
@@ -55,7 +56,7 @@ class ContactService:
         return contact
 
     def list_all(self) -> list[Contact]:
-        return sorted(self._repository.list_all(), key=lambda c: c.name.value.casefold())
+        return sorted(self._repository.list_all(), key=lambda c: ukrainian_sort_key(c.name.value))
 
     def search(self, query: str) -> list[Contact]:
         contacts = self.list_all()
@@ -89,4 +90,6 @@ class ContactService:
             days_until = (upcoming - today).days
             if days_until <= days:
                 result.append(UpcomingBirthday(contact, upcoming, days_until, age))
-        return sorted(result, key=lambda r: (r.days_until, r.contact.name.value.casefold()))
+        return sorted(
+            result, key=lambda r: (r.days_until, ukrainian_sort_key(r.contact.name.value))
+        )

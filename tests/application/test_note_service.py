@@ -109,3 +109,8 @@ def test_delete_removes(service: NoteService) -> None:
     note = service.add("a")
     service.delete(note.id)
     assert service.list_all() == []
+
+
+def test_group_by_tags_uses_ukrainian_alphabet(service: NoteService) -> None:
+    service.add("a", tags("яблука", "їжа", "інше", "гроші"))
+    assert list(service.group_by_tags()) == tags("гроші", "інше", "їжа", "яблука")

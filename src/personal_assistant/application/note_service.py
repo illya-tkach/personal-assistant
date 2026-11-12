@@ -6,6 +6,7 @@ from collections.abc import Iterable
 
 from personal_assistant.application.ports import Clock, NoteRepository
 from personal_assistant.domain.note import NewNote, Note
+from personal_assistant.domain.sorting import ukrainian_sort_key
 from personal_assistant.domain.value_objects import Tag
 
 
@@ -54,7 +55,8 @@ class NoteService:
         """Notes grouped by tag, tags alphabetically; untagged notes last under ``None``."""
         notes = self.list_all()
         groups: dict[Tag | None, list[Note]] = {}
-        for tag in sorted({tag for note in notes for tag in note.tags}):
+        all_tags = {tag for note in notes for tag in note.tags}
+        for tag in sorted(all_tags, key=lambda t: ukrainian_sort_key(t.value)):
             groups[tag] = [n for n in notes if tag in n.tags]
         untagged = [n for n in notes if not n.tags]
         if untagged:

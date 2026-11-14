@@ -74,6 +74,9 @@ PERSONAL_ASSISTANT_STORAGE=sqlite assistant
 
 ## Архітектура
 
+Детальний опис із діаграмами пакетів, класів і послідовності викликів —
+у [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
 ```
 src/personal_assistant/
   domain/          сутності (Contact, Note), value objects з валідацією, доменні помилки — без I/O

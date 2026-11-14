@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from personal_assistant.domain.note import validate_note_text
-from personal_assistant.presentation import messages, views
+from personal_assistant.presentation import messages
 from personal_assistant.presentation.commands._common import info, success, text
-from personal_assistant.presentation.parsers import parse_positive_int, parse_tags
+from personal_assistant.presentation.io import views
+from personal_assistant.presentation.io.parsers import parse_positive_int, parse_tags
 from personal_assistant.presentation.registry import Command, CommandContext, Outcome
 
 

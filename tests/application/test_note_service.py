@@ -7,7 +7,7 @@ import pytest
 from personal_assistant.application.note_service import NoteService
 from personal_assistant.domain.errors import NoteNotFoundError
 from personal_assistant.domain.value_objects import Tag
-from personal_assistant.infrastructure.memory_repositories import InMemoryNoteRepository
+from personal_assistant.infrastructure.storage.memory.repositories import InMemoryNoteRepository
 from tests.conftest import FixedClock
 
 

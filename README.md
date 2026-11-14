@@ -78,8 +78,14 @@ PERSONAL_ASSISTANT_STORAGE=sqlite assistant
 src/personal_assistant/
   domain/          сутності (Contact, Note), value objects з валідацією, доменні помилки — без I/O
   application/     сервіси (ContactService, NoteService) і порти (ContactRepository, NoteRepository, Clock)
-  infrastructure/  реалізації портів: JSON, SQLite, in-memory; фабрика сховищ; системний годинник
-  presentation/    CLI: цикл команд, покрокові запитання, таблиці rich, усі тексти українською
+  infrastructure/  реалізації портів; фабрика сховищ (factory.py); системний годинник
+    storage/
+      json/        JSON-файли з атомарним записом і карантином пошкоджених файлів
+      sqlite/      SQLite (stdlib sqlite3): з'єднання і схема, репозиторії контактів і нотаток
+      memory/      in-memory, без збереження (також база для JSON)
+  presentation/    CLI: цикл команд (cli.py), реєстр, усі тексти українською (messages.py)
+    commands/      обробники команд: контакти, нотатки, системні
+    io/            покрокові запитання, розбір відповідей, таблиці rich
   main.py          composition root — єдине місце, що збирає всі шари
 ```
 
@@ -88,7 +94,7 @@ src/personal_assistant/
 
 ### Як додати нове сховище (наприклад, PostgreSQL)
 
-1. Створіть у `infrastructure/` класи, що реалізують `ContactRepository` і `NoteRepository`
+1. Створіть пакет `infrastructure/storage/<назва>/` з класами, що реалізують `ContactRepository` і `NoteRepository`
    з `application/ports.py` і кидають лише доменні помилки.
 2. Додайте функцію-будівник і запис у `STORAGE_BACKENDS` у `infrastructure/factory.py`.
 3. Додайте бекенд у `tests/contract/conftest.py`. Якщо контрактні тести проходять — підміна безпечна.

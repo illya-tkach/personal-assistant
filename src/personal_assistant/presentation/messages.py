@@ -21,7 +21,7 @@ from personal_assistant.domain.errors import (
     UnknownStorageBackendError,
     ValidationError,
 )
-from personal_assistant.presentation.parsers import InvalidNumberError
+from personal_assistant.presentation.io.parsers import InvalidNumberError
 
 WELCOME = "Вітаю! Я ваш персональний помічник. Введіть help, щоб побачити список команд."
 GOODBYE = "До побачення!"

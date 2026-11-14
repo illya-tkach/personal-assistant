@@ -11,9 +11,9 @@ from personal_assistant.domain.contact import Contact
 from personal_assistant.domain.errors import StorageError
 from personal_assistant.domain.note import NewNote
 from personal_assistant.domain.value_objects import Name, Phone, Tag
-from personal_assistant.infrastructure.json_contact_repository import JsonContactRepository
-from personal_assistant.infrastructure.json_note_repository import JsonNoteRepository
-from personal_assistant.infrastructure.json_storage import JsonFile
+from personal_assistant.infrastructure.storage.json.contact_repository import JsonContactRepository
+from personal_assistant.infrastructure.storage.json.file import JsonFile
+from personal_assistant.infrastructure.storage.json.note_repository import JsonNoteRepository
 
 T0 = datetime(2026, 11, 12, 10, tzinfo=timezone.utc)
 

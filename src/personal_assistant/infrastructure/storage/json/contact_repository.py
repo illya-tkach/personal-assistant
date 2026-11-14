@@ -8,13 +8,13 @@ from typing import Any
 
 from personal_assistant.domain.contact import Contact, ContactId
 from personal_assistant.domain.value_objects import Address, Birthday, Email, Name, Phone
-from personal_assistant.infrastructure.json_storage import (
+from personal_assistant.infrastructure.storage.json.file import (
     LOAD_ERRORS,
     SCHEMA_VERSION,
     JsonFile,
     require,
 )
-from personal_assistant.infrastructure.memory_repositories import InMemoryContactRepository
+from personal_assistant.infrastructure.storage.memory.repositories import InMemoryContactRepository
 
 
 def contact_to_dict(contact: Contact) -> dict[str, Any]:

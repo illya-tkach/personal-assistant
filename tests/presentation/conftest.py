@@ -7,12 +7,12 @@ from rich.console import Console
 
 from personal_assistant.application.contact_service import ContactService
 from personal_assistant.application.note_service import NoteService
-from personal_assistant.infrastructure.memory_repositories import (
+from personal_assistant.infrastructure.storage.memory.repositories import (
     InMemoryContactRepository,
     InMemoryNoteRepository,
 )
 from personal_assistant.presentation.commands import build_registry
-from personal_assistant.presentation.prompts import Prompter
+from personal_assistant.presentation.io.prompts import Prompter
 from personal_assistant.presentation.registry import CommandContext
 from tests.conftest import FixedClock
 

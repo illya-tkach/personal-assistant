@@ -12,7 +12,7 @@ from rich.console import Console
 from personal_assistant.application.contact_service import ContactService
 from personal_assistant.application.note_service import NoteService
 from personal_assistant.application.ports import Clock
-from personal_assistant.presentation.prompts import Prompter
+from personal_assistant.presentation.io.prompts import Prompter
 
 
 class Outcome(Enum):

@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 from personal_assistant.domain.errors import StorageError
-from personal_assistant.infrastructure.json_storage import CorruptFileError, JsonFile
+from personal_assistant.infrastructure.storage.json.file import CorruptFileError, JsonFile
 
 
 def test_write_then_read_round_trip(tmp_path: Path) -> None:

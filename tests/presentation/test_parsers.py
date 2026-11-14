@@ -6,7 +6,7 @@ import pytest
 
 from personal_assistant.domain.errors import InvalidBirthdayError, InvalidPhoneError
 from personal_assistant.domain.value_objects import Birthday, Phone, Tag
-from personal_assistant.presentation.parsers import (
+from personal_assistant.presentation.io.parsers import (
     InvalidNumberError,
     birthday_parser,
     parse_days,

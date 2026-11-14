@@ -12,11 +12,11 @@ from personal_assistant.domain.contact import Contact
 from personal_assistant.domain.errors import StorageError
 from personal_assistant.domain.note import NewNote
 from personal_assistant.domain.value_objects import Name, Phone, Tag
-from personal_assistant.infrastructure.sqlite_repositories import (
+from personal_assistant.infrastructure.storage.sqlite.contact_repository import (
     SqliteContactRepository,
-    SqliteDatabase,
-    SqliteNoteRepository,
 )
+from personal_assistant.infrastructure.storage.sqlite.database import SqliteDatabase
+from personal_assistant.infrastructure.storage.sqlite.note_repository import SqliteNoteRepository
 
 T0 = datetime(2026, 11, 12, 10, tzinfo=timezone.utc)
 

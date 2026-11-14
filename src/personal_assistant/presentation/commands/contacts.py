@@ -4,9 +4,10 @@ from __future__ import annotations
 
 from personal_assistant.application.contact_service import ContactData
 from personal_assistant.domain.value_objects import Address, Email, Name
-from personal_assistant.presentation import messages, views
+from personal_assistant.presentation import messages
 from personal_assistant.presentation.commands._common import info, success, text
-from personal_assistant.presentation.parsers import birthday_parser, parse_days, parse_phones
+from personal_assistant.presentation.io import views
+from personal_assistant.presentation.io.parsers import birthday_parser, parse_days, parse_phones
 from personal_assistant.presentation.registry import Command, CommandContext, Outcome
 
 

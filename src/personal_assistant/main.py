@@ -19,7 +19,7 @@ from personal_assistant.infrastructure.factory import Settings, StorageBundle, c
 from personal_assistant.presentation import messages
 from personal_assistant.presentation.cli import AssistantCLI
 from personal_assistant.presentation.commands import build_registry
-from personal_assistant.presentation.prompts import Prompter
+from personal_assistant.presentation.io.prompts import Prompter
 from personal_assistant.presentation.registry import CommandContext
 
 

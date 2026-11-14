@@ -11,7 +11,7 @@ from personal_assistant.domain.errors import (
     InvalidDaysError,
 )
 from personal_assistant.domain.value_objects import Address, Birthday, Email, Name, Phone
-from personal_assistant.infrastructure.memory_repositories import InMemoryContactRepository
+from personal_assistant.infrastructure.storage.memory.repositories import InMemoryContactRepository
 from tests.conftest import FixedClock
 
 

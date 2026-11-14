@@ -8,19 +8,19 @@ from pathlib import Path
 
 from personal_assistant.application.ports import ContactRepository, NoteRepository
 from personal_assistant.domain.errors import StorageError, UnknownStorageBackendError
-from personal_assistant.infrastructure.json_contact_repository import JsonContactRepository
-from personal_assistant.infrastructure.json_note_repository import JsonNoteRepository
-from personal_assistant.infrastructure.json_storage import JsonFile
-from personal_assistant.infrastructure.memory_repositories import (
+from personal_assistant.infrastructure.paths import resolve_data_dir
+from personal_assistant.infrastructure.storage.json.contact_repository import JsonContactRepository
+from personal_assistant.infrastructure.storage.json.file import JsonFile
+from personal_assistant.infrastructure.storage.json.note_repository import JsonNoteRepository
+from personal_assistant.infrastructure.storage.memory.repositories import (
     InMemoryContactRepository,
     InMemoryNoteRepository,
 )
-from personal_assistant.infrastructure.paths import resolve_data_dir
-from personal_assistant.infrastructure.sqlite_repositories import (
+from personal_assistant.infrastructure.storage.sqlite.contact_repository import (
     SqliteContactRepository,
-    SqliteDatabase,
-    SqliteNoteRepository,
 )
+from personal_assistant.infrastructure.storage.sqlite.database import SqliteDatabase
+from personal_assistant.infrastructure.storage.sqlite.note_repository import SqliteNoteRepository
 
 STORAGE_ENV = "PERSONAL_ASSISTANT_STORAGE"
 DEFAULT_STORAGE = "json"

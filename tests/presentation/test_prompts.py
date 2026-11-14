@@ -6,8 +6,8 @@ from rich.console import Console
 
 from personal_assistant.domain.errors import DomainError, InvalidPhoneError, ValidationError
 from personal_assistant.domain.value_objects import Email, Name, Phone
+from personal_assistant.presentation.io.prompts import Prompter
 from personal_assistant.presentation.messages import error_message
-from personal_assistant.presentation.prompts import Prompter
 
 
 def scripted(answers: Iterable[str]) -> Callable[[str], str]:

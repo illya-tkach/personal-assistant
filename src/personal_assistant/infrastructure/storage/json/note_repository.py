@@ -8,13 +8,13 @@ from typing import Any
 
 from personal_assistant.domain.note import Note, validate_note_text
 from personal_assistant.domain.value_objects import Tag
-from personal_assistant.infrastructure.json_storage import (
+from personal_assistant.infrastructure.storage.json.file import (
     LOAD_ERRORS,
     SCHEMA_VERSION,
     JsonFile,
     require,
 )
-from personal_assistant.infrastructure.memory_repositories import InMemoryNoteRepository
+from personal_assistant.infrastructure.storage.memory.repositories import InMemoryNoteRepository
 
 
 def note_to_dict(note: Note) -> dict[str, Any]:

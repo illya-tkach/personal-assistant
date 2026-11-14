@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from personal_assistant.presentation import messages, views
+from personal_assistant.presentation import messages
+from personal_assistant.presentation.io import views
 from personal_assistant.presentation.registry import Command, CommandContext, Outcome
 
 
